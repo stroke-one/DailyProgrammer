@@ -1,4 +1,20 @@
 ## https://www.reddit.com/r/dailyprogrammer/comments/72ivih/20170926_challenge_333_easy_packet_assembler/
+## executes at the bottom.
+
+def message_sort(data):
+    combined_message = {}
+    for line in data.split("\n"):
+        msgid = line[:4]
+        packid = int(line[8:10])
+        msg = line[16:]
+        if not msgid in combined_message:
+            msglen = int(line[12:14])
+            combined_message[msgid] = [None]*msglen
+        combined_message[msgid][packid] = msg
+        if combined_message[msgid].count(None) == 0:
+            for message in combined_message.pop(msgid):
+                print(message)
+    return(combined_message)
 
 data = """7469    1   7   believe. Attack ships on fire off the 
 9949    6   10  He's a silent guardian. 
@@ -64,20 +80,5 @@ data = """7469    1   7   believe. Attack ships on fire off the
 6450    4   11  venal and virulent vermin vanguarding vice and vouchsafing the violently vicious 
 6450    0   11  Voilà! In view, a humble vaudevillian veteran, cast vicariously as both victim 
 9949    5   10  Because he's not a hero. """
-
-def message_sort(data):
-    combined_message = {}
-    for line in data.split("\n"):
-        msgid = line[:4]
-        packid = int(line[8:10])
-        msg = line[16:]
-        if not msgid in combined_message:
-            msglen = int(line[12:14])
-            combined_message[msgid] = [None]*msglen
-        combined_message[msgid][packid] = msg
-        if combined_message[msgid].count(None) == 0:
-            for message in combined_message.pop(msgid):
-                print(message)
-    return(combined_message)
 
 msgs = message_sort(data)
