@@ -4,11 +4,15 @@
 def message_sort(data):
     combined_message = {}
     for line in data.split("\n"):
-        msgid = line[:4]
-        packid = int(line[8:10])
-        msg = line[16:]
+        line = line.split(maxsplit=3)
+        msgid = line[0]
+        packid = int(line[1])
+        try:
+            msg = line[3]
+        except:
+            msg = ""
         if not msgid in combined_message:
-            msglen = int(line[12:14])
+            msglen = int(line[2])
             combined_message[msgid] = [None]*msglen
         combined_message[msgid][packid] = msg
         if combined_message[msgid].count(None) == 0:
